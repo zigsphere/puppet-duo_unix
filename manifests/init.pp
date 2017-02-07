@@ -21,6 +21,8 @@ class duo_unix (
   $accept_env_factor = 'no',
   $manage_ssh = true,
   $manage_pam = true,
+  $manage_pam_ssh_key = true,
+  $pam_ssh_file = '/etc/pam.d/sshd',
   $pam_unix_control = 'requisite',
   $package_version = 'installed',
 ) {
