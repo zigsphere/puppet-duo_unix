@@ -12,21 +12,21 @@ class duo_unix::yum {
 
   # Map Amazon Linux to RedHat equivalent releases
   # Map RedHat 5 to CentOS 5 equivalent releases
-  if $::operatingsystem == 'Amazon' {
-    $releasever = $::operatingsystemmajrelease ? {
+  if $facts['os']['name'] == 'Amazon' {
+    $releasever = $facts['os']['release']['major'] ? {
       '2014'  => '6Server',
       default => undef,
     }
-    $os = $::operatingsystem
-  } elsif ( $::operatingsystem == 'RedHat' and
-            $::operatingsystemmajrelease == 5 ) {
+    $os = $facts['os']['name']
+  } elsif ( $facts['os']['name'] == 'RedHat' and
+            $facts['os']['release']['major'] == 5 ) {
     $os = 'CentOS'
     $releasever = '$releasever'
-  } elsif ( $::operatingsystem == 'OracleLinux' ) {
+  } elsif ( $facts['os']['name'] == 'OracleLinux' ) {
     $os = 'CentOS'
     $releasever = '$releasever'
   } else {
-    $os = $::operatingsystem
+    $os = $facts['os']['name']
     $releasever = '$releasever'
   }
 

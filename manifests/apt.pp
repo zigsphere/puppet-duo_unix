@@ -30,7 +30,7 @@ class duo_unix::apt {
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    content => "deb ${repo_uri}/${::operatingsystem} ${::lsbdistcodename} main",
+    content => "deb ${repo_uri}/${facts['os']['name']} ${facts['os']['distro']['codename']} main",
     notify  => Exec['duo-security-apt-update']
   }
 

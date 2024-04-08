@@ -34,18 +34,18 @@ class duo_unix (
     fail('You must configure a usage of duo_unix, either login or pam.')
   }
 
-  case $::osfamily {
+  case $facts['os']['family'] {
     'RedHat': {
       $duo_package = 'duo_unix'
       $ssh_service = 'sshd'
       $gpg_file    = '/etc/pki/rpm-gpg/RPM-GPG-KEY-DUO'
 
-      $pam_file = $::operatingsystemrelease ? {
+      $pam_file = $facts['os']['release']['full'] ? {
         /^5/ => '/etc/pam.d/system-auth',
         /^(6|7|2014)/ => '/etc/pam.d/password-auth'
       }
 
-      $pam_module  = $::architecture ? {
+      $pam_module  = $facts['os']['architecture'] ? {
         i386   => '/lib/security/pam_duo.so',
         i686   => '/lib/security/pam_duo.so',
         x86_64 => '/lib64/security/pam_duo.so'
@@ -60,7 +60,7 @@ class duo_unix (
       $gpg_file    = '/etc/apt/DEB-GPG-KEY-DUO'
       $pam_file    = '/etc/pam.d/common-auth'
 
-      $pam_module  = $::architecture ? {
+      $pam_module  = $facts['os']['architecture'] ? {
         i386  => '/lib/security/pam_duo.so',
         i686  => '/lib/security/pam_duo.so',
         amd64 => '/lib64/security/pam_duo.so'
@@ -70,7 +70,7 @@ class duo_unix (
       include duo_unix::generic
     }
     default: {
-      fail("Module ${module_name} does not support ${::operatingsystem}")
+      fail("Module ${module_name} does not support ${facts['os']['name']}")
     }
   }
 
