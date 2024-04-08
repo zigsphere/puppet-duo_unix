@@ -33,7 +33,7 @@ class duo_unix::pam inherits duo_unix {
   }
 
   if $duo_unix::manage_pam {
-    if $::osfamily == 'RedHat' {
+    if $facts['os']['name'] == 'RedHat' {
       augeas { 'PAM Configuration':
         changes => [
           "set ${aug_pam_path}/2/control ${duo_unix::pam_unix_control}",
@@ -61,7 +61,7 @@ class duo_unix::pam inherits duo_unix {
     }
   }
   if $duo_unix::manage_pam_ssh_key {
-    if $::osfamily == 'Debian' {
+    if $facts['os']['name'] == 'Debian' {
       augeas { 'PAM SSH Duo Configuration 1':
         changes => [
           "ins 101 after ${aug_pam_ssh_path}/include[1]",
